@@ -73,8 +73,80 @@ Task:
 
 Deliverable: Submit the defect report.
 
-Instructions for Submission
+HOW TO RUN:
 
-1. Please compile all your deliverables into a single PDF document.
+This project contains a Python script that performs unit tests to validate the responses of a RESTful API. Below are the steps to run the script, along with an explanation of the libraries used and the script's functionality.
 
-2. Include your name and contact information on the first page.
+## Requirements
+
+- Python 3.x
+- `requests` library
+- 'unittest' library
+
+## Execution
+
+1. **Clone the repository or download the script**: Ensure you have the script file on your system.
+
+2. **Navigate to the script directory**: Open a terminal and navigate to the directory where the script is located. For example:
+    ```sh
+    cd /C:\Users\lisda\Desktop\Python\main.py/to/directory
+    ```
+
+3. **Run the script**: Execute the following command to run the unit tests:
+    ```sh
+    python script_main.py
+    ```
+
+## Libraries Used
+
+- `unittest`: A standard Python library that provides a framework for creating and running unit tests.
+- `requests`: A Python library that allows you to send HTTP requests easily.
+
+## Script Description
+
+The script performs unit tests to validate the responses of a RESTful API. 
+
+1. **Importing Libraries**:
+    ```python
+    import unittest
+    import requests
+    ```
+
+2. **Defining the Test Class**:
+    ```python
+    class AmadeusTestChallenge(unittest.TestCase):
+    ```
+
+3. **`setUp` Method**: This method runs before each test. It defines the base URL of the API and the expected keys in the response.
+    ```python
+    def setUp(self):
+        self.url = 'https://api.restful-api.dev/objects'
+        self.expected_keys = ['id', 'name', 'data']
+    ```
+
+4. **`test_validate_response_success` Test**: This test checks that the API response has a status code of 200 and that each object in the response contains the expected keys.
+    ```python
+    def test_validate_response_success(self):
+        self.expected_status_code = 200
+        response = requests.get(self.url)
+        devices = response.json()
+        self.assertEqual(response.status_code, self.expected_status_code, 'Expected status code: 200')
+        for device in devices:
+            for expected_key in self.expected_keys:
+                self.assertIn(expected_key, device, f"Missing expected key '{expected_key}' in response")
+    ```
+
+5. **`test_validate_response_not_found` Test**: This test checks that a request to an invalid URL returns a status code of 404.
+    ```python
+    def test_validate_response_not_found(self):
+        self.modified_url = self.url + 'invalid'
+        self.expected_status_code = 404
+        response = requests.get(self.modified_url)
+        self.assertEqual(response.status_code, self.expected_status_code, 'Expected status code: 404')
+    ```
+
+6. **Running the Tests**: This block allows the tests to be run when the script is executed directly.
+    ```python
+    if __name__ == '__main__':
+        unittest.main()
+    ```
