@@ -1,4 +1,4 @@
-# Test-Amadeus
+# Test-Amadeus🚀
 Practical QA engineering test for Amadeus company 
 
 Part 1: Test Planning and Test Case Design
